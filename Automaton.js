@@ -8,7 +8,7 @@ class Automaton {
     this.transitions = transitions;
   }
 
-  // Verifica se o automato foi enviado corretamente
+  // Método que realiza várias verificações para retornar se o autômato foi definido corretamente ou não
   checkFormat(optionType) {
     // Se o estado inicial pertence a estados
     if (!this.states.includes(this.initialState)) {
@@ -50,10 +50,8 @@ class Automaton {
       console.log("\nAutômato inválido. Este é um AFN-& e deve ser enviado um AFD!.");
       return false;
     }
-    // else if(!this.transitions.some(transition => transition[1] === "&") && optionType === '2'){
-    //   console.log("\nAutômato inválido. Este é um AFD e deve ser enviado um AFN-&!.");
-    //   return false;
-    // }
+
+    // Caso o autômato passe por todas as verificações é impresso no terminal que ele foi definido corretamente
     console.log("\nAutômato definido corretamente!");
     return true;
   }
@@ -69,11 +67,11 @@ class Automaton {
         // Filtragem realizada para selecionar apenas as transições onde o símbolo atual e o estado atual coincidem em conjunto
         const potentialTransitions = this.transitions.filter(transition => transition[0] === currentState[0] && transition[1] === symbol);
 
+        // Se não existir nenhum possível transição, apenas sai do loop
         if (potentialTransitions.length === 0) {
-          // Se não existir nenhum possível transição, retorna false para sair do loop
-          return false;
+          break;
         }
-        // Se existir uma transição, o estado atual recebe o próximo estado referente a essa transição
+        // Se existir uma transição, o estado atual recebe o próximo estado contido nessa transição
         currentState = [potentialTransitions[0][2]];
       }
 
@@ -84,6 +82,7 @@ class Automaton {
     });
   }
 
+  // Método para criar a lógica de um AFN-& e retornar se a as palavras são aceitas ou não
   createENFA(strings) {
     // Estrutura de repetição para percorrer o array de palavras
     strings.forEach(string => {
@@ -112,7 +111,7 @@ class Automaton {
         // Atualiza os estados atuais com os próximos estados
         currentStates = nextStates;
 
-        // Se não houver mais estados atuais, a palavra é recusada
+        // Se não houver mais estados atuais, a palavra é recusada e sai do loop
         if (currentStates.length === 0) {
           endState = false;
           break;
@@ -121,13 +120,12 @@ class Automaton {
 
       // Verifica se algum dos estados atuais é um estado final
       endState = this.#verifyEndStates(currentStates);
-
       // Imprime se a palavra é aceita ou recusada
       console.log(`\nPalavra "${string}": ${endState ? 'ACEITA!' : 'RECUSADA!'}`);
     });
   }
 
-  // Método privado que realiza os movimentos vazios do AFN
+  // Método privado que realiza os movimentos vazios do AFN-&
   #eClosure(states) {
     // Inicializa arrayEClosure com uma cópia dos estados
     let arrayEClosure = [...states]; 
@@ -136,7 +134,7 @@ class Automaton {
 
     // Função recursiva para calcular os movimentos vazios
     const calculateEClosure = (currentState) => {
-      // Filtra as transições que correspondem ao estado atual e com movimento vazio
+      // Filtra as transições que correspondem ao estado atual com movimento vazio
       let eTransitions = this.transitions.filter(transition => transition[0] === currentState && transition[1] === "&");
       // Loop para percorrer todos as transições possíveis
       eTransitions.forEach(eTransition => {
@@ -153,7 +151,7 @@ class Automaton {
     // Chama calculateEClosure para cada estado inicial
     arrayEClosure.forEach(state => calculateEClosure(state));
 
-    // Retorna o fecho-ε calculado
+    // Retorna o array contendo o novo conjunto de estados
     return arrayEClosure;
   }
 

@@ -86,9 +86,9 @@ Ao executar o script, você será guiado pelas seguintes etapas:
 1. Escolha se deseja simular um AFD ou um AFN-&.
 2. Envie o nome ou diretório do arquivo .json contendo a definição formal do autômato especificado anteriormente.
 3. Selecione como deseja enviar as palavras para verificação:
-3.1. **Através de arquivo .txt:** envie o nome ou diretório do arquivo .txt.
-3.2. **Via terminal:** digite a palavra para ser verificada.
-3.2.1. No envio via terminal é realizado o tratamento de apenas uma palavra por vez, podendo enviar outra após a verificação
+   3.1. **Através de arquivo .txt:** envie o nome ou diretório do arquivo .txt.
+   3.2. **Via terminal:** digite a palavra para ser verificada.
+       3.2.1. No envio via terminal é realizado o tratamento de apenas uma palavra por vez, podendo enviar outra após a verificação.
 4. Aguarde o resultado da verificação para cada palavra.
 
 **Obs.:** Em todas as etapas é possível decidir se deseja enviar novamente a resposta caso ocorra de realizar o envio inválido.

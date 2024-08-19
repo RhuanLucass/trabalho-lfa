@@ -19,7 +19,7 @@ Para executar o programa, siga as instruções abaixo:
 2. Execute o comando:
 
 ```bash
-node scripts.js
+node script.js
 ```
 
 3. Siga as instruções exibidas no terminal para interagir com o programa.
@@ -28,8 +28,8 @@ node scripts.js
 
 O programa oferece as seguintes funcionalidades:
 
-- Possibilidade de especificação de AFDs e AFNs-λ através de definições formais em arquivos JSON.
-- Verificação se palavras são aceitas ou não pelos autômatos.
+- Possibilidade de especificação de AFDs e AFNs-& através de definições formais em arquivos JSON.
+- Verificar se palavras são aceitas ou não pelos autômatos.
 
 ## Como Especificar Autômatos em Arquivos JSON
 
@@ -91,6 +91,6 @@ Ao executar o script, você será guiado pelas seguintes etapas:
        3.2.1. No envio via terminal é realizado o tratamento de apenas uma palavra por vez, podendo enviar outra após a verificação.
 4. Aguarde o resultado da verificação para cada palavra.
 
-**Obs.:** Em todas as etapas é possível decidir se deseja enviar novamente a resposta caso ocorra de realizar o envio inválido.
+**Obs.:** Em todas as etapas é possível decidir se deseja enviar novamente a resposta caso ocorra envio inválido.
 
 No diretório do programa encontram-se dois arquivos .json, ambos contendo exemplos de autômatos referentes ao nome do arquivo, e dois arquivos .txt, cada um contendo palavras para serem testadas em seus respectivos autômatos.

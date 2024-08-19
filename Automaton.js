@@ -47,8 +47,8 @@ class Automaton {
 
     // Verificando AFD
     if( optionType === '1'){
-      if(!this.isDFA()){
-        console.log("\nAutômato inválido. Este é um AFN-& e deve ser enviado um AFD!.");
+      if(!this.#isDFA()){
+        console.log("\nAutômato inválido. Este não é um AFD!");
         return false;
       }
     }
@@ -59,21 +59,27 @@ class Automaton {
   }
 
   // Método para verificar se o autômato é AFD
-  isDFA(){
-    // Verifica se está sendo passado um AFN enquanto foi selecionado um AFD
-    if (this.transitions.some(transition => transition[1] === "&")) return false;
-
-    // Verifica se o AFD contêm apenas uma transição para cada símbolo em cada estado
-    this.transitions.forEach((transition, index) => {
-      const potencialTransitions = transition.filter(t => t[0] === this.states[index]);
-      potencialTransitions.forEach((potencial, count) => {
-        const singleTransition = potencial.filter(t => t[1] === potencialTransitions[count][1]);
-        
-        if(singleTransition > 1){
-          return false;
-        }
-      })
-    })
+  #isDFA() {
+    // Verifica se há alguma transição com epsilon (&)
+    if (this.transitions.some(transition => transition[1] === "&")) {
+      return false;
+    }
+  
+    // Verifica se há mais de uma transição para o mesmo símbolo em cada estado
+    for (const transition of this.transitions) {
+      const potentialTransitions = this.transitions.filter(t => t[0] === transition[0]);
+  
+      const hasDuplicate = potentialTransitions.some((potencial) => {
+        const singleTransition = potentialTransitions.filter(t => t[1] === potencial[1]);
+        return singleTransition.length > 1;  // Se encontrar duplicado, retorna true
+      });
+  
+      if (hasDuplicate) {
+        return false;  // Se encontrar qualquer duplicado, retorna false imediatamente
+      }
+    }
+  
+    return true;  // Se passar por todas as verificações, é um AFD
   }
 
   // Método para criar a lógica de um AFD e retornar se a as palavras são aceitas ou não

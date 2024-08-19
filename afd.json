@@ -1,4 +1,5 @@
 {
+  "descricao": "w | |w|%2 = 0",
   "alfabeto": ["a", "b"],
   "estados": ["q0", "q1", "q2", "q3"],
   "estado_inicial": "q0",

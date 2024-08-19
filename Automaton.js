@@ -45,15 +45,35 @@ class Automaton {
       }
     }
 
-    // Verifica se está sendo passado um AFN enquanto foi selecionado um AFD
-    if (this.transitions.some(transition => transition[1] === "&") && optionType === '1') {
-      console.log("\nAutômato inválido. Este é um AFN-& e deve ser enviado um AFD!.");
-      return false;
+    // Verificando AFD
+    if( optionType === '1'){
+      if(!this.isDFA()){
+        console.log("\nAutômato inválido. Este é um AFN-& e deve ser enviado um AFD!.");
+        return false;
+      }
     }
 
     // Caso o autômato passe por todas as verificações é impresso no terminal que ele foi definido corretamente
     console.log("\nAutômato definido corretamente!");
     return true;
+  }
+
+  // Método para verificar se o autômato é AFD
+  isDFA(){
+    // Verifica se está sendo passado um AFN enquanto foi selecionado um AFD
+    if (this.transitions.some(transition => transition[1] === "&")) return false;
+
+    // Verifica se o AFD contêm apenas uma transição para cada símbolo em cada estado
+    this.transitions.forEach((transition, index) => {
+      const potencialTransitions = transition.filter(t => t[0] === this.states[index]);
+      potencialTransitions.forEach((potencial, count) => {
+        const singleTransition = potencial.filter(t => t[1] === potencialTransitions[count][1]);
+        
+        if(singleTransition > 1){
+          return false;
+        }
+      })
+    })
   }
 
   // Método para criar a lógica de um AFD e retornar se a as palavras são aceitas ou não
@@ -64,8 +84,8 @@ class Automaton {
       let currentState = [this.initialState];
       // Estrutura de repetição para percorrer todos os caracteres da palavra
       for (const symbol of string) {
-        // Filtragem realizada para selecionar apenas as transições onde o símbolo atual e o estado atual coincidem em conjunto
-        const potentialTransitions = this.transitions.filter(transition => transition[0] === currentState[0] && transition[1] === symbol);
+        // Busca realizada para selecionar apenas a transição onde o símbolo atual e o estado atual coincidem em conjunto
+        const potentialTransitions = this.transitions.find(transition => transition[0] === currentState[0] && transition[1] === symbol);
 
         // Se não existir nenhum possível transição, apenas sai do loop
         if (potentialTransitions.length === 0) {

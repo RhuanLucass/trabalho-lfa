@@ -94,11 +94,11 @@ class Automaton {
         const potentialTransitions = this.transitions.find(transition => transition[0] === currentState[0] && transition[1] === symbol);
 
         // Se não existir nenhum possível transição, apenas sai do loop
-        if (potentialTransitions.length === 0) {
+        if (potentialTransitions === undefined) {
           break;
         }
         // Se existir uma transição, o estado atual recebe o próximo estado contido nessa transição
-        currentState = [potentialTransitions[0][2]];
+        currentState = [potentialTransitions[2]];
       }
 
       // Após chegar no último estado, é verificado se ele pertence ao array de estados finais
@@ -154,7 +154,7 @@ class Automaton {
   // Método privado que realiza os movimentos vazios do AFN-&
   #eClosure(states) {
     // Inicializa arrayEClosure com uma cópia dos estados
-    let arrayEClosure = [...states]; 
+    let arrayEClosure = [...states];
     // Cria um conjunto para rastrear os estados visitados
     let visitedStates = new Set(arrayEClosure); 
 
@@ -187,7 +187,7 @@ class Automaton {
     if (currentStates === null) {
       return false;
     }
-    // Inicializa como falso a variável boolena que representa se algum estado coincide
+    // Inicializa como falso a variável booleana que representa se algum estado coincide
     let foundEndState = false;
 
     // Loop para percorrer o array de estados recebido

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const { Automaton } = require('./Automaton');
-// import { Automaton, Transition } from './Automaton';
+
 let automatonObj;
 let optionType;
 
@@ -84,9 +84,9 @@ const stringsFile = () => {
         rl.close();
       } catch (error) {
         // Tratamento de erros
-
         clearTerminal();
-        // Caso o arquivo possua a extensão .json, mas ainda ocorra um erro, essa será a mensagem exibida
+        console.log(error)
+        // Caso o arquivo possua a extensão .txt, mas ainda ocorra um erro, essa será a mensagem exibida
         console.log(`\nArquivo "${txtFileName}" inválido!`);
         // Chamada da função tryAgain para o usuário decidir se deseja enviar um novo nome
         tryAgain(stringsFile);
@@ -127,11 +127,6 @@ const handleOptionString = () => {
       case '2':
         // Envio das palavras a partir do terminal
         stringText();
-        break;
-      default:
-        console.log("\nOpção inválida!");
-        // Chamada da função tryAgain para o usuário decidir se deseja enviar um novo valor
-        tryAgain(handleOptionString);
         break;
     }
   });
@@ -207,17 +202,21 @@ const handleType = () => {
   console.log('2- AFN-&');
   rl.question("\nDigite o número referente a resposta:\n", (option) => {
     // Verifica se o valor de option é aceito
-    if (option === '1' || option === '2') {
-      // Se sim, passa o valor para a variável OptionType que é utilizada posteriormente na criação do tipo de autômato
-      optionType = option;
-      // Limpa o terminal e chama função responsável pelo arquivo json
-      clearTerminal();
-      handleJsonFile();
-    } else {
-      // Senão, limpa o terminal e chama a função tryAgain para o usuário decidir se deseja enviar um novo valor
-      console.log("\nOpção inválida!");
-      clearTerminal();
-      tryAgain(handleType);
+    switch(option){
+      case '1':
+      case '2':
+        // Se sim, passa o valor para a variável OptionType que é utilizada posteriormente na criação do tipo de autômato
+        optionType = option;
+        // Limpa o terminal e chama função responsável pelo arquivo json
+        clearTerminal();
+        handleJsonFile();
+        break
+      default:
+        // Senão, limpa o terminal e chama a função tryAgain para o usuário decidir se deseja enviar um novo valor
+        clearTerminal();
+        console.log("\nOpção inválida!");
+        tryAgain(handleType);
+        break;
     }
   });
 }
